@@ -1,0 +1,170 @@
+import swal from 'sweetalert';
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>圈圈叉叉遊戲</title>
+        <style>
+            p{
+                position: relative;
+                top:-40px;
+                height: 50;
+            }
+            .btn{
+                width: 100px;
+                height: 100px;
+                border: none;
+                cursor: pointer;
+                background-color: cornflowerblue;
+                font-size: 48px;
+            }
+        </style>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <!-- <link href="D:\fontawesome-free-5.15.3-web\css\all.css" rel="stylesheet"> -->
+        <script>
+            var userText='';
+            var comText='';
+            swal({
+                    title:"選擇你的符號",
+                    buttons:{
+                        cross:{
+                            text:"❌",
+                            value:"cross",
+                        },
+                        ring:{
+                            text:"⚪",
+                            value:"ring",
+                        },
+                    }
+            }).then((key)=>{
+                switch (key) {
+                    case "ring":
+                        userText = '⚪';
+                        comText = '❌';
+                        break;
+                    case "cross":
+                        userText = '❌';
+                        comText = '⚪';
+                        break;
+                }
+            });
+        
+            function getRandom(){
+                return Math.floor(Math.random()*9);
+            };
+            
+            function ing(){
+                while(true){
+                    position = getRandom();
+                    var sum=0;
+                    for(z=0;z<9;z++){
+                        if(document.getElementById(z).value!=''){
+                            sum++;
+                        }
+                    }
+                    if(sum<9){
+                        if(document.getElementById(position).value==''){
+                            document.getElementById(position).value=comText;
+                            compare();
+                            break;
+                            //alert("電腦選擇"+(position+1)+"位置填入"+comText);
+                        }else{
+                            continue;
+                        }   
+                    }else{
+                        compare();
+                        break;
+                    }
+                }
+            };
+            var sure = true;
+            function compare(){
+                var btns = [document.getElementById('0').value,document.getElementById('1').value,document.getElementById('2').value,
+                document.getElementById('3').value,document.getElementById('4').value,document.getElementById('5').value
+                ,document.getElementById('6').value,document.getElementById('7').value,document.getElementById('8').value];
+                for(i=0;i<7;i+=3){ //012
+                    if(((btns[i]==btns[i+1])&&(btns[i]==btns[i+2]))&&(btns[i+1]!='')){
+                        if(btns[i+1]==userText){
+                            alert("恭喜!你贏了!");
+                            sure=false;
+                            window.location.reload();
+                        }else{
+                            alert("你輸了!下次再努力!");
+                            window.location.reload();
+                        }
+                    }else{
+                        continue;
+                    }
+                }
+                for(j=0;j<3;j++){ //036
+                    if(((btns[j]==btns[j+3])&&(btns[j]==btns[j+6]))&&(btns[j+3]!='')){
+                        if(btns[j+3]==userText){
+                            alert("恭喜!你贏了!");
+                            sure=false;
+                            window.location.reload();
+                        }else{
+                            alert("你輸了!下次再努力!");
+                            window.location.reload();
+                        }
+                    }else{
+                        continue;
+                    }
+                }
+                if((btns[0]==btns[4])&&(btns[0]==btns[8])&&(btns[4]!='')){
+                    if(btns[4]==userText){
+                        alert("恭喜!你贏了!");
+                        sure=false;
+                        window.location.reload();
+                    }else{
+                        alert("你輸了!下次再努力!");
+                        window.location.reload();
+                    }
+                }
+                if((btns[2]==btns[4])&&(btns[2]==btns[6])&&(btns[4]!='')){
+                    if(btns[4]==userText){
+                        alert("恭喜!你贏了!");
+                        sure=false;
+                        window.location.reload();
+                    }else{
+                        alert("你輸了!下次再努力!");
+                        window.location.reload();
+                    }
+                }
+                var num=0;
+                for(k=0;k<9;k++){
+                    if(btns[k]!=''){
+                        num++;
+                        if((num==9)&&(sure==true)){
+                            alert("這局平手!");
+                            window.location.reload();
+                            break;
+                        }
+                    }else{
+                        continue;
+                    }
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <!-- <p style="background-color: white;"></p> -->
+        <!-- ❌ -->
+        <table style="border: none;">
+            <tr>
+                <td><input class="btn" id='0' type="button" value="" onclick="this.value=userText;ing()">
+                <td><input class="btn" id='1' type="button" value="" onclick='this.value=userText;ing()'>
+                <td><input class="btn" id='2' type="button" value="" onclick='this.value=userText;ing()'>
+            </tr>
+            <tr>
+                <td><input class="btn" id='3' type="button" value="" onclick='this.value=userText;ing()'>
+                <td><input class="btn" id='4' type="button" value="" onclick='this.value=userText;ing()'>
+                <td><input class="btn" id='5' type="button" value="" onclick='this.value=userText;ing()'>
+            </tr>
+            <tr>
+                <td><input class="btn" id='6' type="button" value="" onclick='this.value=userText;ing()'>
+                <td><input class="btn" id='7' type="button" value="" onclick='this.value=userText;ing()'>
+                <td><input class="btn" id='8' type="button" value="" onclick='this.value=userText;ing()'>
+            </tr>
+        </table>
+    </body>
+</html>
